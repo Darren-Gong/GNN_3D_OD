@@ -18,7 +18,7 @@ pip install shapely
 
 ### KITTI Dataset
 
-使用KITTI 3D物体检测数据集 [here](https://blog.csdn.net/qq_16137569/article/details/118873033). 提供了额外的拆分文件。 [splits/](splits). 文件结构:
+使用KITTI 3D物体检测数据集 [here](https://blog.csdn.net/qq_16137569/article/details/118873033). 其中Velodyne点云文件、左视RGB图像链接[夸克网盘](https://pan.quark.cn/s/9f59ca7b5628)。提供了额外的拆分文件。 [splits/](splits). 文件结构:
 
     DATASET_ROOT_DIR
     ├── image                    #  Left color images
