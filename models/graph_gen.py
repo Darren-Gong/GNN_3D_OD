@@ -5,11 +5,11 @@ import random
 
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
-import open3d
+import open3d as o3d
 import tensorflow as tf
 
-def multi_layer_downsampling(points_xyz, base_voxel_size, levels=[1],
-    add_rnd3d=False,):
+
+def multi_layer_downsampling(points_xyz, base_voxel_size, levels=[1], add_rnd3d=False):
     """Downsample the points using base_voxel_size at different scales"""
     xmax, ymax, zmax = np.amax(points_xyz, axis=0)
     xmin, ymin, zmin = np.amin(points_xyz, axis=0)
@@ -17,33 +17,36 @@ def multi_layer_downsampling(points_xyz, base_voxel_size, levels=[1],
     xyz_zeros = np.asarray([0, 0, 0], dtype=np.float32)
     downsampled_list = [points_xyz]
     last_level = 0
+
     for level in levels:
         if np.isclose(last_level, level):
             downsampled_list.append(np.copy(downsampled_list[-1]))
         else:
             if add_rnd3d:
-                xyz_idx = (points_xyz-xyz_offset+
-                    base_voxel_size*level*np.random.random((1,3)))//\
-                        (base_voxel_size*level)
+                xyz_idx = (points_xyz - xyz_offset +
+                           base_voxel_size * level * np.random.random((1, 3))) // \
+                          (base_voxel_size * level)
                 xyz_idx = xyz_idx.astype(np.int32)
                 dim_x, dim_y, dim_z = np.amax(xyz_idx, axis=0) + 1
-                keys = xyz_idx[:, 0]+xyz_idx[:, 1]*dim_x+\
-                    xyz_idx[:, 2]*dim_y*dim_x
+                keys = xyz_idx[:, 0] + xyz_idx[:, 1] * dim_x + \
+                       xyz_idx[:, 2] * dim_y * dim_x
                 sorted_order = np.argsort(keys)
                 sorted_keys = keys[sorted_order]
                 sorted_points_xyz = points_xyz[sorted_order]
                 _, lens = np.unique(sorted_keys, return_counts=True)
                 indices = np.hstack([[0], lens[:-1]]).cumsum()
                 downsampled_xyz = np.add.reduceat(
-                    sorted_points_xyz, indices, axis=0)/lens[:,np.newaxis]
+                    sorted_points_xyz, indices, axis=0) / lens[:, np.newaxis]
                 downsampled_list.append(np.array(downsampled_xyz))
             else:
-                pcd = open3d.geometry.PointCloud()
-                pcd.points = open3d.utility.Vector3dVector(points_xyz)
-                downsampled_xyz = np.asarray(open3d.voxel_down_sample(
-                    pcd, voxel_size = base_voxel_size*level).points)
+                pcd = o3d.geometry.PointCloud()
+                pcd.points = o3d.utility.Vector3dVector(points_xyz)
+                downsampled_xyz = np.asarray(pcd.voxel_down_sample(
+                    voxel_size=base_voxel_size * level).points)
                 downsampled_list.append(downsampled_xyz)
+
         last_level = level
+
     return downsampled_list
 
 def multi_layer_downsampling_select(points_xyz, base_voxel_size, levels=[1],
