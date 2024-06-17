@@ -1,4 +1,4 @@
-"""This file implement an inference pipeline for Point-GNN on KITTI dataset"""
+"""本文实现了一个基于KITTI数据集的Point-GNN推理管道"""
 
 import argparse
 import os
@@ -114,19 +114,19 @@ elif config['input_features'] == 'i000':
     t_initial_vertex_features = tf.placeholder(
         dtype=tf.float32, shape=[None, 4])
 elif config['input_features'] == 'i':
-    t_initial_vertex_features = tf.placeholder(
+    t_initial_vertex_features = tf.compat.v1.placeholder(
         dtype=tf.float32, shape=[None, 1])
 elif config['input_features'] == '0':
     t_initial_vertex_features = tf.placeholder(
         dtype=tf.float32, shape=[None, 1])
-t_vertex_coord_list = [tf.placeholder(dtype=tf.float32, shape=[None, 3])]
+t_vertex_coord_list = [tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, 3])]
 for _ in range(len(config['runtime_graph_gen_kwargs']['level_configs'])):
     t_vertex_coord_list.append(
-        tf.placeholder(dtype=tf.float32, shape=[None, 3]))
+        tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, 3]))
 t_edges_list = []
 for _ in range(len(config['runtime_graph_gen_kwargs']['level_configs'])):
     t_edges_list.append(
-        tf.placeholder(dtype=tf.int32, shape=[None, 2]))
+        tf.compat.v1.placeholder(dtype=tf.int32, shape=[None, 2]))
 t_keypoint_indices_list = []
 for _ in range(len(config['runtime_graph_gen_kwargs']['level_configs'])):
     t_keypoint_indices_list.append(
@@ -189,9 +189,9 @@ gt_color_map = {
 }
 # runing network ==============================================================
 time_dict = {}
-saver = tf.train.Saver()
-graph = tf.get_default_graph()
-gpu_options = tf.GPUOptions(allow_growth=True)
+saver = tf.compat.v1.train.Saver()
+graph = tf.compat.v1.get_default_graph()
+gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
 with tf.Session(graph=graph,
                 config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     sess.run(tf.variables_initializer(tf.global_variables()))
