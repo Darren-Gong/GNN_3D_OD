@@ -7,13 +7,14 @@ conda install tensorflow-gpu==1.15.0
 pip install tensorflow-estimator==1.15.0
 ```
 
-安装其他依赖项: 
+安装及更新其他依赖项: 
 ```
 conda install py-opencv
 pip install open3d==0.8.0.0
 pip install scikit-learn
 pip install tqdm
 pip install shapely
+pip install --upgrade tf_slim
 ```
 
 ### KITTI Dataset
