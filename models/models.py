@@ -1,4 +1,4 @@
-"""This file implements models for object detection. """
+"""这个文件实现了对象检测的模型. """
 
 from functools import partial
 
@@ -125,7 +125,7 @@ class MultiLayerFastLocalGraphModelV2(object):
                     t_vertex_coordinates = t_vertex_coord_list[graph_level]
                     t_keypoint_indices = t_keypoint_indices_list[graph_level]
                     t_edges = t_edges_list[graph_level]
-                    with tf.variable_scope(layer_scope, reuse=tf.AUTO_REUSE):
+                    with tf.compat.v1.variable_scope(layer_scope, reuse=tf.compat.v1.AUTO_REUSE):
                         flgn = self._default_layers_type[layer_type]
                         print('@ level %d Graph, Add layer: %s, type: %s'%
                             (graph_level, layer_scope, layer_type))
@@ -154,7 +154,7 @@ class MultiLayerFastLocalGraphModelV2(object):
                 predictor = self._default_layers_type[predictor_config['type']]
                 print('Final Feature Dim:'+str(tfeatures.shape[-1]))
                 with tf.variable_scope(predictor_config['scope'],
-                reuse=tf.AUTO_REUSE):
+                reuse=tf.compat.v1.AUTO_REUSE):
                     logits, box_encodings =  predictor.apply_regular(tfeatures,
                         num_classes=self.num_classes,
                         box_encoding_len=self.box_encoding_len,
