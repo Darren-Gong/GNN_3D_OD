@@ -38,8 +38,8 @@ def multi_layer_downsampling(points_xyz, base_voxel_size, levels=[1],
                     sorted_points_xyz, indices, axis=0)/lens[:,np.newaxis]
                 downsampled_list.append(np.array(downsampled_xyz))
             else:
-                pcd = open3d.PointCloud()
-                pcd.points = open3d.Vector3dVector(points_xyz)
+                pcd = open3d.geometry.PointCloud()
+                pcd.points = open3d.utility.Vector3dVector(points_xyz)
                 downsampled_xyz = np.asarray(open3d.voxel_down_sample(
                     pcd, voxel_size = base_voxel_size*level).points)
                 downsampled_list.append(downsampled_xyz)
