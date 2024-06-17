@@ -14,7 +14,6 @@ pip install open3d==0.8.0.0
 pip install scikit-learn
 pip install tqdm
 pip install shapely
-pip install --upgrade tf_slim
 ```
 
 ### KITTI Dataset
