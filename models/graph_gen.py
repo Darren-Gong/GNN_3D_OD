@@ -1,4 +1,4 @@
-"""The file defines functions to generate graphs."""
+"""该文件定义了生成图形的函数."""
 
 import time
 import random
