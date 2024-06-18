@@ -120,7 +120,7 @@ optional arguments:
 ```
 For example:
 ```
-python3 train.py configs/car_auto_T3_train_train_config configs/car_auto_T3_train_config
+python train.py configs/car_auto_T3_train_train_config configs/car_auto_T3_train_config
 ```
 强烈建议在开始训练之前查看train_config。可能想要首先更改的一些常见参数:
 ```
@@ -133,7 +133,7 @@ NUM_GPU       The number of GPUs to use. We used two GPUs for the reference mode
 ```
 提供了一个评估脚本来定期评估检查点. For example:
 ```
-python3 eval.py configs/car_auto_T3_train_eval_config 
+python eval.py configs/car_auto_T3_train_eval_config 
 ```
 可以使用tensorboard查看培训和评估状态。
 ```
